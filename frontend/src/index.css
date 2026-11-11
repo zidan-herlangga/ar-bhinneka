@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@theme {
+  /* Nusantara Modern palette */
+  --color-primary: #d94a36;
+  --color-primary-dark: #b91c1c;
+  --color-secondary: #f28c28;
+  --color-secondary-light: #f7b07a;
+  --color-accent: #f2c14e;
+  --color-accent-light: #f7d98e;
+  --color-teal: #247c83;
+  --color-teal-dark: #1a5c60;
+  --color-teal-light: #4a9ba3;
+  --color-green: #477a52;
+  --color-green-dark: #355e3f;
+  --color-blue: #78a9b5;
+  --color-ivory: #fff5e8;
+  --color-surface: #ffffff;
+  --color-ink: #352b27;
+  --color-muted: #6b5e57;
+  --color-flag-red: #b91c1c;
+
+  /* Compatibility aliases (used by existing components) */
+  --color-sky: var(--color-teal);
+  --color-sky-light: var(--color-teal-light);
+  --color-sky-dark: var(--color-teal-dark);
+  --color-warm: var(--color-accent);
+  --color-warm-light: var(--color-accent-light);
+
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Baloo 2", "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --radius-card: 1rem;
+  --radius-button: 0.75rem;
+  --shadow-card: 0 1px 3px rgb(53 43 39 / 0.08), 0 4px 12px rgb(53 43 39 / 0.05);
+  --shadow-pop: 0 8px 24px rgb(217 74 54 / 0.18);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--color-ivory);
+  background-image: radial-gradient(rgb(36 124 131 / 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #78350f;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(36 124 131 / 0.45) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgb(36 124 131 / 0.45);
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-teal);
+  outline-offset: 2px;
+}
+
+.btn-touch {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.motif {
+  background-image: url("/assets/patterns/tenun.svg");
+  background-size: 64px 64px;
+}
+
+.motif-light {
+  background-image: url("/assets/patterns/tenun-light.svg");
+  background-size: 64px 64px;
+}
+
+.motif-band {
+  height: 16px;
+  background-image: url("/assets/patterns/tenun.svg");
+  background-size: 64px 16px;
+  background-repeat: repeat-x;
+  opacity: 0.7;
+}
+
+@keyframes fade-up {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.fade-up {
+  animation: fade-up 0.4s ease-out both;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.pop {
+  animation: pop 0.3s ease-out both;
+}
+
+.floaty {
+  animation: floaty 3.2s ease-in-out infinite;
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
