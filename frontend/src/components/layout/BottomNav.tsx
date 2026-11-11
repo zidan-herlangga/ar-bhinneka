@@ -33,7 +33,7 @@ export function BottomNav() {
                 <img
                   src={iconSrc}
                   alt={label}
-                  className={cn("h-10 w-auto max-w-none object-contain transition-transform", active && "scale-105")}
+                  className={cn("h-14 w-auto max-w-none object-contain transition-transform", active && "scale-105")}
                 />
               </Link>
             </li>

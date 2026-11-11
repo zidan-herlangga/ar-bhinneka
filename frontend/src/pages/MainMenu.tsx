@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Compass, Glasses, Trophy, User } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Compass,
+  Glasses,
+  Trophy,
+  User,
+} from "lucide-react";
 
-import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { SectionTitle } from "../components/ui/SectionTitle";
 import { usePlayerStore } from "../store/playerStore";
@@ -115,36 +121,37 @@ export function MainMenu() {
       />
       <div className="grid gap-3 sm:grid-cols-2">
         {features.map((f) => (
-          <Link key={f.to} to={f.to}>
-            <Card interactive className="h-full">
+          <Link key={f.to} to={f.to} className="group block h-full">
+            <Card interactive className="h-full overflow-hidden">
+              <span
+                aria-hidden
+                className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-primary-dark transition-transform duration-300 group-hover:scale-x-100"
+              />
               <div className="flex items-start gap-3">
                 <span
-                  className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sky/10 text-sky-dark"
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sky/10 text-sky-dark transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
                   aria-hidden
                 >
                   <f.icon className="h-5 w-5" />
                 </span>
-                <div className="min-w-0">
-                  <h3 className="font-display text-lg font-extrabold text-ink">
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-display text-lg font-extrabold text-ink transition-colors duration-300 group-hover:text-sky-dark">
                     {f.title}
                   </h3>
                   <p className="mt-1 text-sm leading-relaxed text-gray-600">
                     {f.desc}
                   </p>
                 </div>
+                <span
+                  className="mt-1 shrink-0 text-sky-dark opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 sm:-translate-x-2"
+                  aria-hidden
+                >
+                  <ArrowRight className="h-5 w-5" />
+                </span>
               </div>
             </Card>
           </Link>
         ))}
-      </div>
-
-      <div className="mt-4 flex justify-center">
-        <Link to="/peta">
-          <Button size="lg" dots>
-            Mulai dari sini
-            <ArrowRight className="h-5 w-5" aria-hidden />
-          </Button>
-        </Link>
       </div>
 
       <SectionTitle
@@ -152,7 +159,7 @@ export function MainMenu() {
         title="Cara main"
         subtitle="Hanya tiga langkah untuk jadi Pahlawan Budaya."
       />
-      <div className="grid divide-y divide-sky/10 rounded-2xl border border-sky/10 bg-white sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      <div className="grid divide-y divide-sky/10 rounded-2xl border mt-5 border-sky/10 bg-white sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {steps.map((step) => (
           <div key={step.n} className="p-5">
             <span
