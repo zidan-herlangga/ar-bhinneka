@@ -8,6 +8,7 @@ type Size = "sm" | "md" | "lg" | "xl";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   size?: Size;
+  dots?: boolean;
 }
 
 const variants: Record<Variant, string> = {
@@ -25,7 +26,7 @@ const sizes: Record<Size, string> = {
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", size = "md", onClick, ...props }, ref) => (
+  ({ className, variant = "primary", size = "md", dots = false, onClick, children, ...props }, ref) => (
     <button
       ref={ref}
       onClick={(event) => {
@@ -39,7 +40,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className
       )}
       {...props}
-    />
+    >
+      {children}
+      {dots && (
+        <span className="flex gap-1" aria-hidden>
+          <span className="dot-pulse h-1.5 w-1.5 rounded-full bg-current" />
+          <span className="dot-pulse h-1.5 w-1.5 rounded-full bg-current" />
+          <span className="dot-pulse h-1.5 w-1.5 rounded-full bg-current" />
+        </span>
+      )}
+    </button>
   )
 );
 Button.displayName = "Button";

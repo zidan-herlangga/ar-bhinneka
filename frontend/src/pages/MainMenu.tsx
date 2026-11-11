@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { BookOpen, Compass, Glasses, Trophy, User } from "lucide-react";
+import { ArrowRight, BookOpen, Compass, Glasses, Trophy, User } from "lucide-react";
 
+import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { SectionTitle } from "../components/ui/SectionTitle";
 import { usePlayerStore } from "../store/playerStore";
@@ -135,6 +136,15 @@ export function MainMenu() {
             </Card>
           </Link>
         ))}
+      </div>
+
+      <div className="mt-4 flex justify-center">
+        <Link to="/peta">
+          <Button size="lg" dots>
+            Mulai dari sini
+            <ArrowRight className="h-5 w-5" aria-hidden />
+          </Button>
+        </Link>
       </div>
 
       <SectionTitle
