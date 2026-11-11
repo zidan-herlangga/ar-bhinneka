@@ -3,11 +3,37 @@ import { cn } from "../../lib/cn";
 import { playClick } from "../../lib/sound";
 
 const items = [
-  { to: "/", label: "Beranda", iconSrc: "/assets/icons/mobile/beranda.png", matches: (p: string) => p === "/" },
-  { to: "/peta", label: "Peta", iconSrc: "/assets/icons/mobile/peta.png", matches: (p: string) => ["/peta", "/pulau", "/provinsi", "/kuis"].some((x) => p.startsWith(x)) },
-  { to: "/pengalaman-ar", label: "AR", iconSrc: "/assets/icons/mobile/ar.png", matches: (p: string) => p.startsWith("/pengalaman-ar") },
-  { to: "/profil", label: "Profil", iconSrc: "/assets/icons/mobile/profil.png", matches: (p: string) => p.startsWith("/profil") },
-  { to: "/pengaturan", label: "Atur", iconSrc: "/assets/icons/mobile/pengaturan.png", matches: (p: string) => p.startsWith("/pengaturan") },
+  {
+    to: "/",
+    label: "Beranda",
+    iconSrc: "/assets/icons/mobile/beranda.png",
+    matches: (p: string) => p === "/",
+  },
+  {
+    to: "/peta",
+    label: "Peta",
+    iconSrc: "/assets/icons/mobile/peta.png",
+    matches: (p: string) =>
+      ["/peta", "/pulau", "/provinsi", "/kuis"].some((x) => p.startsWith(x)),
+  },
+  {
+    to: "/pengalaman-ar",
+    label: "AR",
+    iconSrc: "/assets/icons/mobile/ar.png",
+    matches: (p: string) => p.startsWith("/pengalaman-ar"),
+  },
+  {
+    to: "/profil",
+    label: "Profil",
+    iconSrc: "/assets/icons/mobile/profil.png",
+    matches: (p: string) => p.startsWith("/profil"),
+  },
+  {
+    to: "/pengaturan",
+    label: "Atur",
+    iconSrc: "/assets/icons/mobile/pengaturan.png",
+    matches: (p: string) => p.startsWith("/pengaturan"),
+  },
 ];
 
 export function BottomNav() {
@@ -27,13 +53,16 @@ export function BottomNav() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "flex items-center justify-center rounded-2xl px-1 py-1.5 transition",
-                  active ? "bg-sky/10" : "hover:bg-gray-50"
+                  active ? "bg-sky/50" : "hover:bg-gray/5 active:bg-gray/10",
                 )}
               >
                 <img
                   src={iconSrc}
                   alt={label}
-                  className={cn("h-14 w-auto max-w-none object-contain transition-transform", active && "scale-105")}
+                  className={cn(
+                    "h-14 w-auto max-w-none object-contain transition-transform",
+                    active && "scale-105",
+                  )}
                 />
               </Link>
             </li>
