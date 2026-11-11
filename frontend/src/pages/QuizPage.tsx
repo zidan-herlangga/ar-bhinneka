@@ -13,7 +13,9 @@ import { ProgressBar } from "../components/ui/ProgressBar";
 import { usePlayerStore } from "../store/playerStore";
 import { cn } from "../lib/cn";
 import { playCorrect, playWrong, playSuccess } from "../lib/sound";
-import { apiUrl } from "../lib/api";
+import { apiFetch, ApiError } from "../lib/api";
+import { localQuiz } from "../data/localData";
+import { PROVINCES } from "../data/provinces";
 
 type QuestionType = "multiple_choice" | "yes_no" | "essay";
 
@@ -48,14 +50,22 @@ function starsFor(score: number, total: number) {
 
 export function QuizPage() {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading, isError } = useQuery<QuizData>({
+  const { data, isLoading, isError, error } = useQuery<QuizData>({
     queryKey: ["quiz", id],
     queryFn: async () => {
-      const res = await fetch(apiUrl(`/api/quiz?province_id=${id}`));
-      if (!res.ok) throw new Error("Gagal memuat kuis");
-      return res.json();
+      try {
+        return await apiFetch<QuizData>(`/api/quiz?province_id=${id}`);
+      } catch (err) {
+        // Fallback ke generator lokal supaya kuis tetap bisa dimainkan saat backend offline.
+        const province = PROVINCES.find((p) => p.id === id);
+        if (!province) throw err;
+        const local = localQuiz(province.id, province.name, province.region, PROVINCES);
+        if (!local) throw err;
+        return local;
+      }
     },
     enabled: !!id,
+    retry: 1,
   });
 
   const [stage, setStage] = useState<"intro" | "playing" | "finished">("intro");
@@ -116,13 +126,12 @@ export function QuizPage() {
     try {
       let pid = playerId && playerId !== "local" ? playerId : null;
       if (!pid) {
-        const res = await fetch(apiUrl("/api/players"), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ nickname, avatar }) });
-        const created = await res.json();
+        const created = await apiFetch<{ id: string }>("/api/players", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ nickname, avatar }) });
         pid = created.id;
         if (pid && pid !== "local") setPlayerId(pid);
       }
       if (pid && pid !== "local") {
-        await fetch(apiUrl("/api/quiz-results"), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ player_id: pid, province_id: id, score, total, stars, xp }) });
+        await apiFetch("/api/quiz-results", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ player_id: pid, province_id: id, score, total, stars, xp }) });
       }
     } catch { /* ignore */ }
   };
@@ -149,10 +158,15 @@ export function QuizPage() {
   }
 
   if (isError || !data || total === 0) {
+    const apiError = error instanceof ApiError ? error : null;
     return (
       <section className="mx-auto max-w-3xl px-4 py-8">
-        <EmptyState emoji="📡" title="Gagal memuat kuis" description="Pastikan server kuis sedang berjalan, lalu coba lagi."
-          action={<Link to="/peta"><Button>Kembali ke Peta</Button></Link>} />
+        <EmptyState
+          emoji="📡"
+          title="Gagal memuat kuis"
+          description={apiError ? `${apiError.message} ${apiError.hint ?? ""}` : "Pastikan server kuis sedang berjalan, lalu coba lagi."}
+          action={<Link to="/peta"><Button>Kembali ke Peta</Button></Link>}
+        />
       </section>
     );
   }

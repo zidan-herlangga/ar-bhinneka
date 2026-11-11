@@ -10,7 +10,7 @@ import { StatTile } from "../components/ui/StatTile";
 import { EmptyState } from "../components/ui/EmptyState";
 import { usePlayerStore } from "../store/playerStore";
 import { PROVINCES } from "../data/provinces";
-import { apiUrl } from "../lib/api";
+import { apiFetch } from "../lib/api";
 
 interface QuizHistory { province_id: string; score: number; total: number; stars: number; xp: number; }
 function provinceName(id: string) { return PROVINCES.find((p) => p.id === id)?.name ?? id; }
@@ -21,9 +21,11 @@ export function Profile() {
   const { data: history, isLoading } = useQuery<QuizHistory[]>({
     queryKey: ["quiz-results", playerId],
     queryFn: async () => {
-      const res = await fetch(apiUrl(`/api/quiz-results?player_id=${playerId}`));
-      if (!res.ok) return [];
-      return res.json();
+      try {
+        return await apiFetch<QuizHistory[]>(`/api/quiz-results?player_id=${playerId}`);
+      } catch {
+        return [];
+      }
     },
     enabled: !!playerId && playerId !== "local",
   });

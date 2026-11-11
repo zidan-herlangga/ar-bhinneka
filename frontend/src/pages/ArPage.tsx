@@ -8,7 +8,8 @@ import { SectionTitle } from "../components/ui/SectionTitle";
 import { Suspense, lazy } from "react";
 import { useArSupport } from "../hooks/useArSupport";
 import { cn } from "../lib/cn";
-import { apiUrl } from "../lib/api";
+import { apiFetch } from "../lib/api";
+import { localCultures } from "../data/localData";
 import { PROVINCES } from "../data/provinces";
 
 const ThreeViewer = lazy(() => import("../components/ar/ThreeViewer").then((m) => ({ default: m.ThreeViewer })));
@@ -30,9 +31,11 @@ export function ArPage() {
   const { data: cultures } = useQuery<Culture[]>({
     queryKey: ["cultures", selectedProvince],
     queryFn: async () => {
-      const res = await fetch(apiUrl(`/api/cultures?province_id=${selectedProvince}`));
-      if (!res.ok) return [];
-      return res.json();
+      try {
+        return await apiFetch<Culture[]>(`/api/cultures?province_id=${selectedProvince}`);
+      } catch {
+        return localCultures(selectedProvince);
+      }
     },
   });
 

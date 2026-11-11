@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .config import CORS_ORIGINS
+from .config import ALLOW_ALL_ORIGINS, CORS_ORIGINS
 from .db import connect, disconnect
 from .routers import health, provinces, cultures, quiz, players
 
@@ -17,7 +17,7 @@ app = FastAPI(title="Bhinneka Tunggal Ika API", version="0.1.0", lifespan=lifesp
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
-    allow_credentials=True,
+    allow_credentials=not ALLOW_ALL_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )

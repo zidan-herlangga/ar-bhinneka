@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Check, Info, Leaf, Music, RotateCcw, Save, ShieldCheck, SlidersHorizontal, Type, UserRound, Volume2, VolumeX } from "lucide-react";
+import { Check, Info, Leaf, Music, RotateCcw, Save, ShieldCheck, SlidersHorizontal, Type, UserRound, Volume2, VolumeX, Wifi } from "lucide-react";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { PageHeader } from "../components/ui/PageHeader";
@@ -7,6 +7,9 @@ import { SectionTitle } from "../components/ui/SectionTitle";
 import { usePlayerStore } from "../store/playerStore";
 import { cn } from "../lib/cn";
 import { isSoundEnabled, setSoundEnabled, playClick } from "../lib/sound";
+import { apiFetch, getApiBase, setApiBase } from "../lib/api";
+
+const ENV_API_BASE = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? "";
 
 const AVATARS = ["👧", "👦", "🧒", "👩", "🧑", "🦊", "🐼", "🦜"];
 
@@ -41,6 +44,30 @@ export function Settings() {
   const [saved, setSaved] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
   const [resetDone, setResetDone] = useState(false);
+
+  const [checking, setChecking] = useState(false);
+  const [connection, setConnection] = useState<{ ok: boolean; message?: string } | null>(null);
+  const [apiBaseDraft, setApiBaseDraft] = useState(() => getApiBase());
+
+  const saveApiBase = () => {
+    setApiBase(apiBaseDraft);
+    setApiBaseDraft(getApiBase());
+    setConnection(null);
+  };
+
+  const checkConnection = async () => {
+    setChecking(true);
+    setConnection(null);
+    try {
+      const data = await apiFetch<{ status?: string }>("/api/health");
+      setConnection({ ok: true, message: data?.status });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Tidak diketahui";
+      setConnection({ ok: false, message });
+    } finally {
+      setChecking(false);
+    }
+  };
 
   const [reduceMotion, setReduceMotion] = useState(() => localStorage.getItem("bti-reduce-motion") === "1");
   const [largeText, setLargeText] = useState(() => localStorage.getItem("bti-large-text") === "1");
@@ -128,6 +155,40 @@ export function Settings() {
             )}
             {resetDone && <span className="text-sm font-bold text-green-700">Progres berhasil direset.</span>}
           </div>
+        </div>
+      </Card>
+
+      <SectionTitle icon={<Wifi className="h-5 w-5" />} title="Koneksi Server" subtitle="Cek apakah aplikasi bisa menjangkau backend." />
+      <Card className="mb-8">
+        <label className="text-xs font-bold uppercase tracking-wider text-muted" htmlFor="api-base">
+          Alamat backend
+        </label>
+        <div className="mt-1 flex flex-wrap gap-2">
+          <input
+            id="api-base"
+            value={apiBaseDraft}
+            onChange={(e) => setApiBaseDraft(e.target.value)}
+            placeholder="https://backend-anda.onrender.com"
+            className="min-w-0 flex-1 rounded-xl border border-sky/20 bg-white px-4 py-2.5 font-mono text-sm text-ink outline-none transition focus:border-teal"
+          />
+          <Button variant="ghost" size="sm" onClick={saveApiBase}>
+            <Save className="h-4 w-4" aria-hidden /> Simpan
+          </Button>
+        </div>
+        <p className="mt-2 text-xs text-gray-500">
+          Dikunci dari <code className="font-mono">VITE_API_BASE_URL</code>:{" "}
+          <code className="font-mono">{ENV_API_BASE || "(belum diisi)"}</code>
+        </p>
+
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={checkConnection} disabled={checking}>
+            {checking ? "Memeriksa..." : "Cek Koneksi"}
+          </Button>
+          {connection && (
+            <span className={cn("text-sm font-bold", connection.ok ? "text-green-700" : "text-flag-red")}>
+              {connection.ok ? "✅ Server bisa dihubungi" : `❌ ${connection.message}`}
+            </span>
+          )}
         </div>
       </Card>
 

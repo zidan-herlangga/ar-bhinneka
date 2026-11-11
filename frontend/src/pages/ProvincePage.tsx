@@ -7,7 +7,8 @@ import { Breadcrumb } from "../components/ui/Breadcrumb";
 import { EmptyState } from "../components/ui/EmptyState";
 import { SectionTitle } from "../components/ui/SectionTitle";
 import { PROVINCES, REGION_ISLAND_LABELS, REGION_COLORS, REGION_EMOJI } from "../data/provinces";
-import { apiUrl } from "../lib/api";
+import { apiFetch, ApiError } from "../lib/api";
+import { localCultures } from "../data/localData";
 
 interface Culture { id: string; province_id: string; category: string; name: string; description: string; source: string; }
 
@@ -25,15 +26,29 @@ export function ProvincePage() {
   const { id } = useParams<{ id: string }>();
   const province = PROVINCES.find((p) => p.id === id);
 
-  const { data: cultures, isLoading, isError, refetch } = useQuery<Culture[]>({
+  const { data, isLoading, isError, error, refetch } = useQuery<{
+    cultures: Culture[];
+    offline: boolean;
+  }>({
     queryKey: ["cultures", id],
     queryFn: async () => {
-      const res = await fetch(apiUrl(`/api/cultures?province_id=${id}`));
-      if (!res.ok) throw new Error("Gagal memuat data budaya");
-      return res.json();
+      try {
+        const cultures = await apiFetch<Culture[]>(`/api/cultures?province_id=${id}`);
+        return { cultures, offline: false };
+      } catch (err) {
+        // Fallback ke data lokal agar aplikasi tetap bisa dipakai saat backend offline.
+        const local = localCultures(id ?? "");
+        if (local.length === 0) throw err;
+        return { cultures: local, offline: true };
+      }
     },
     enabled: !!id,
+    retry: 1,
   });
+
+  const cultures = data?.cultures;
+  const offline = data?.offline ?? false;
+  const apiError = error instanceof ApiError ? error : null;
 
   if (!province) {
     return (
@@ -82,7 +97,24 @@ export function ProvincePage() {
         </div>
       )}
 
-      {isError && <EmptyState emoji="🛠️" title="Gagal memuat data budaya" description="Pastikan server budaya sedang berjalan, lalu coba lagi." action={<Button onClick={() => refetch()}>Coba Lagi</Button>} />}
+      {offline && (
+        <div className="mb-4 flex items-start gap-3 rounded-xl border border-warm/30 bg-warm/10 p-4">
+          <span className="text-lg" aria-hidden>📴</span>
+          <p className="text-sm font-semibold text-amber-900/80">
+            Mode offline: data budaya diambil dari paket lokal karena server tidak bisa dihubungi.
+            {apiError ? ` ${apiError.message}` : ""}
+          </p>
+        </div>
+      )}
+
+      {isError && (
+        <EmptyState
+          emoji="🛠️"
+          title="Gagal memuat data budaya"
+          description={apiError ? `${apiError.message} ${apiError.hint ?? ""}` : "Pastikan server budaya sedang berjalan, lalu coba lagi."}
+          action={<Button onClick={() => refetch()}>Coba Lagi</Button>}
+        />
+      )}
 
       {!isLoading && !isError && cultures?.length === 0 && (
         <EmptyState emoji="🗂️" title="Belum ada data budaya" description="Data untuk provinsi ini belum tersedia. Kamu tetap bisa mencoba kuisnya." />
