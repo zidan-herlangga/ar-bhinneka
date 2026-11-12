@@ -32,54 +32,61 @@ copy .env.example .env
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
-## Deployment (frontend di Vercel, backend di Render)
+## Deployment
 
-### 1. Backend di Render (blueprint `render.yaml`)
+Dua project Vercel dari satu repo:
 
-Klik tombol deploy berikut, lalu setujui akses GitHub:
+| Project | Root Directory | Framework | URL |
+|---|---|---|---|
+| `ar-bhinneka` (frontend) | `frontend` | Vite | https://ar-bhinneka.vercel.app |
+| `ar-bhinneka-api` (backend) | `backend` | FastAPI | https://ar-bhinneka-api.vercel.app |
+
+Keduanya sudah terhubung ke repo GitHub, jadi **setiap push ke `main` otomatis
+deploy**. Env yang sudah diatur:
+
+- `ar-bhinneka`: `VITE_API_BASE_URL=https://ar-bhinneka-api.vercel.app`
+- `ar-bhinneka-api`: `CORS_ORIGINS=*`
+
+Perintah manual kalau perlu:
+
+```bash
+# API
+cd backend && npx vercel --prod
+
+# Frontend
+cd frontend && npx vercel --prod
+```
+
+Catatan: karena Root Directory di-set, deploy manual dari subfolder akan gagal
+("Root Directory does not exist"). Pakai push ke GitHub, atau kosongkan
+sementara Root Directory lewat `vercel project update`.
+
+### Alternatif backend: Render
+
+`render.yaml` disediakan kalau ingin backend yang selalu hidup (tidak
+serverless). Klik:
 
 ```
 https://render.com/deploy?repo=https://github.com/zidan-herlangga/ar-bhinneka
 ```
 
-Blueprint akan membuat web service gratis:
+Lalu ganti `VITE_API_BASE_URL` di Vercel ke URL Render dan redeploy.
+Instance gratis Render tidur setelah ~15 menit tanpa trafik (cold start
+30–60 detik); frontend punya fallback lokal saat itu terjadi.
 
-- Root: `backend` · Build: `pip install -r requirements.txt`
-- Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-- Health check: `/api/health`
-- Env: `PYTHON_VERSION=3.12.7`, `DB_NAME`, `CORS_ORIGINS=*`
+### Database (opsional)
 
-Setelah selesai, catat URL backend, mis. `https://bhinneka-tunggal-ika-api.onrender.com`.
-Cek `https://<url-backend>/api/health` → harus mengembalikan `{"status":"ok",...}`.
+Tanpa `MONGO_URL`, API tetap jalan dan progres disimpan di browser
+(localStorage). Untuk menyimpan progres di server, isi `MONGO_URL`
+(MongoDB Atlas) di Environment Variables project `ar-bhinneka-api`, lalu
+redeploy. `/api/health` akan melaporkan `"database": "configured"`.
 
-Catatan:
-
-- Instance gratis "tidur" setelah ~15 menit tanpa trafik; request pertama bisa
-  lambat 30–60 detik. Frontend sudah punya fallback lokal saat itu terjadi.
-- Tanpa `MONGO_URL`, API tetap jalan dan progres disimpan di browser.
-  Untuk menyimpan progres di server, isi `MONGO_URL` (MongoDB Atlas) di
-  dashboard Render, lalu restart service.
-
-### 2. Frontend di Vercel
-
-```bash
-cd frontend
-npx vercel            # login sekali lewat browser
-npx vercel --prod
-```
-
-Saat pertama kali, pilih: framework **Vite**, build `npm run build`, output `dist`.
-
-Atau lewat dashboard Vercel: import repo, **Root Directory = `frontend`**,
-framework Vite, lalu set env `VITE_API_BASE_URL=https://url-backend-anda`
-dan **redeploy** (env Vite dibekukan saat build).
-
-### 3. Kalau backend belum siap
+### Kalau backend belum siap
 
 Aplikasi tetap jalan memakai paket data lokal (`frontend/src/data/cultures.json`)
 dan menampilkan banner "Mode offline".
 
-### 4. Alamat backend bisa diubah saat runtime
+### Alamat backend bisa diubah saat runtime
 
 Lewat menu **Pengaturan → Koneksi Server** (tersimpan di localStorage), tanpa
 perlu build ulang. Berguna untuk mengarahkan build Vercel ke backend baru.
