@@ -3,7 +3,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+# Kosong = tanpa database. Aplikasi tetap jalan, progres disimpan di browser.
+MONGO_URL = os.getenv("MONGO_URL", "").strip()
 DB_NAME = os.getenv("DB_NAME", "bhinneka_tunggal_ika")
 
 # Comma-separated list of allowed origins, e.g.

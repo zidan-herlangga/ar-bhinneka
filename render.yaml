@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: bhinneka-tunggal-ika-api
+    runtime: python
+    plan: free
+    region: singapore
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: DB_NAME
+        value: bhinneka_tunggal_ika
+      # Aplikasi tetap jalan tanpa database (progres disimpan di browser).
+      # Untuk menyimpan progres di server, isi MONGO_URL dengan connection
+      # string MongoDB Atlas di dashboard Render.
+      - key: CORS_ORIGINS
+        value: "*"

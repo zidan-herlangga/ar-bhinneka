@@ -6,6 +6,11 @@ db = None
 
 async def connect():
     global client, db
+    if not MONGO_URL:
+        # Tanpa MONGO_URL: endpoint yang butuh database memakai fallback lokal.
+        client = None
+        db = None
+        return
     client = AsyncIOMotorClient(
         MONGO_URL,
         serverSelectionTimeoutMS=2000,
