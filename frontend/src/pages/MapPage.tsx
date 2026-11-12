@@ -8,7 +8,6 @@ import {
   REGION_LABELS,
   REGION_ISLAND_LABELS,
   REGION_COLORS,
-  REGION_EMOJI,
   provincesByRegion,
   type Region,
 } from "../data/provinces";
@@ -91,8 +90,14 @@ export function MapPage() {
             <Link key={r} to={`/pulau/${r}`}>
               <Card interactive className="h-full">
                 <div className="flex items-start gap-3">
-                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gray-50 text-2xl" aria-hidden>
-                    {REGION_EMOJI[r]}
+                  <span className="grid h-24 w-24 shrink-0 place-items-center overflow-hidden rounded-xl bg-sky/5" aria-hidden>
+                    <img
+                      src={`/assets/maps/pulau-${r === "BaliNusaTenggara" ? "bali" : r.toLowerCase()}.png`}
+                      alt=""
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </span>
                   <div className="min-w-0">
                     <h3 className="font-display text-lg font-extrabold leading-tight text-ink">
