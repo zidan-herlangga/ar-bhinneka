@@ -1,0 +1,8 @@
+# Jangan ikutkan kredensial lokal ke deployment.
+.env
+.env.*
+__pycache__/
+**/__pycache__/
+*.pyc
+.venv/
+.vercel/
