@@ -7,7 +7,7 @@ import { Breadcrumb } from "../components/ui/Breadcrumb";
 import { EmptyState } from "../components/ui/EmptyState";
 import { SectionTitle } from "../components/ui/SectionTitle";
 import {
-  REGION_LABELS, REGION_ISLAND_LABELS, REGION_COLORS, REGION_EMOJI,
+  REGION_LABELS, REGION_ISLAND_LABELS, REGION_COLORS,
   provincesByRegion, type Region,
 } from "../data/provinces";
 
@@ -34,7 +34,8 @@ export function RegionPage() {
   }
 
   const color = REGION_COLORS[r];
-  const emoji = REGION_EMOJI[r];
+  const islandKey = r === "BaliNusaTenggara" ? "bali" : r.toLowerCase();
+  const islandImg = `/assets/maps/pulau-${islandKey}.png`;
 
   return (
     <section className="mx-auto max-w-4xl px-4 py-6 md:py-8">
@@ -54,7 +55,13 @@ export function RegionPage() {
               <span className="rounded-lg bg-white/20 px-3 py-1">Kuis di tiap provinsi</span>
             </div>
           </div>
-          <span className="shrink-0 text-5xl md:text-6xl" aria-hidden>{emoji}</span>
+          <img
+            src={islandImg}
+            alt={islandLabel}
+            className="h-20 w-20 shrink-0 object-contain drop-shadow-lg md:h-28 md:w-28"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
 

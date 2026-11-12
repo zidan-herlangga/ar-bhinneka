@@ -18,24 +18,28 @@ const features = [
   {
     to: "/peta",
     icon: Compass,
+    color: "#247C83",
     title: "Jelajah Peta",
     desc: "Pilih pulau dan provinsi, kenali budayanya.",
   },
   {
     to: "/tantangan",
     icon: Gamepad2,
+    color: "#F28C28",
     title: "Tantangan Budaya",
     desc: "Main tiga mini-game: jodohkan budaya, kartu ingatan, dan tebak petunjuk.",
   },
   {
     to: "/pencapaian",
     icon: Trophy,
+    color: "#F2C14E",
     title: "Pencapaian",
     desc: "Kumpulkan bintang dan buka lencana budaya.",
   },
   {
     to: "/profil",
     icon: User,
+    color: "#78A9B5",
     title: "Profil Saya",
     desc: "Lihat level, XP, dan riwayat kuis.",
   },
@@ -124,7 +128,8 @@ export function MainMenu() {
               />
               <div className="flex items-start gap-3">
                 <span
-                  className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sky/10 text-sky-dark transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-xl transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                  style={{ backgroundColor: `${f.color}18`, color: f.color }}
                   aria-hidden
                 >
                   <f.icon className="h-5 w-5" />

@@ -6,7 +6,7 @@ import { Button } from "../components/ui/Button";
 import { Breadcrumb } from "../components/ui/Breadcrumb";
 import { EmptyState } from "../components/ui/EmptyState";
 import { SectionTitle } from "../components/ui/SectionTitle";
-import { PROVINCES, REGION_ISLAND_LABELS, REGION_COLORS, REGION_EMOJI } from "../data/provinces";
+import { PROVINCES, REGION_ISLAND_LABELS, REGION_COLORS } from "../data/provinces";
 import { apiFetch, ApiError } from "../lib/api";
 import { localCultures } from "../data/localData";
 
@@ -60,7 +60,8 @@ export function ProvincePage() {
   }
 
   const color = REGION_COLORS[province.region];
-  const emoji = REGION_EMOJI[province.region];
+  const islandKey = province.region === "BaliNusaTenggara" ? "bali" : province.region.toLowerCase();
+  const islandImg = `/assets/maps/pulau-${islandKey}.png`;
 
   return (
     <section className="mx-auto max-w-4xl px-4 py-6 md:py-8">
@@ -84,7 +85,13 @@ export function ProvincePage() {
               <span className="rounded-lg bg-white/15 px-3 py-1">{REGION_ISLAND_LABELS[province.region]}</span>
             </div>
           </div>
-          <span className="shrink-0 text-5xl md:text-6xl" aria-hidden>{emoji}</span>
+          <img
+            src={islandImg}
+            alt={REGION_ISLAND_LABELS[province.region]}
+            className="h-20 w-20 shrink-0 object-contain drop-shadow-lg md:h-28 md:w-28"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
 
@@ -126,12 +133,21 @@ export function ProvincePage() {
           return (
             <Card key={c.id} className="h-full">
               <div className="flex items-start gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sky/10 text-sky-dark" aria-hidden>
+                <span
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-xl"
+                  style={{ backgroundColor: `${meta.color}18`, color: meta.color }}
+                  aria-hidden
+                >
                   {meta.icon}
                 </span>
                 <div className="min-w-0">
-                  <span className="text-xs font-bold uppercase tracking-wider text-muted">{meta.label}</span>
-                  <h2 className="mt-1 font-display text-lg font-extrabold leading-tight text-ink">{c.name}</h2>
+                  <span
+                    className="inline-flex items-center gap-1 rounded-lg px-2 py-0.5 text-xs font-bold"
+                    style={{ backgroundColor: `${meta.color}14`, color: meta.color }}
+                  >
+                    {meta.label}
+                  </span>
+                  <h2 className="mt-1.5 font-display text-lg font-extrabold leading-tight text-ink">{c.name}</h2>
                   <p className="mt-1 text-sm leading-relaxed text-gray-600">{c.description}</p>
                   <p className="mt-2 text-xs text-gray-500">Sumber: {c.source}</p>
                 </div>
