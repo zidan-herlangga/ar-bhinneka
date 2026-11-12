@@ -198,8 +198,7 @@ export function Settings() {
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-warm/20 text-amber-700"><Info className="h-5 w-5" aria-hidden /></span>
           <div className="min-w-0">
             <p className="font-display text-lg font-extrabold text-ink">Bhinneka Tunggal Ika <span className="text-sm font-bold text-gray-500">v1.0.0</span></p>
-            <p className="mt-1 text-sm text-gray-600">Petualangan AR budaya Indonesia untuk siswa SD. Jelajahi 38 provinsi, baca budaya, dan uji pemahaman lewat kuis.</p>
-            <p className="mt-2 rounded-lg bg-warm/10 px-3 py-1 text-xs font-bold text-amber-700">Fitur AR perlu diuji pada perangkat nyata sebelum digunakan di kelas.</p>
+            <p className="mt-1 text-sm text-gray-600">Petualangan budaya Indonesia untuk siswa SD. Jelajahi 38 provinsi, baca budaya, lalu uji pemahaman lewat kuis dan tantangan.</p>
           </div>
         </div>
       </Card>

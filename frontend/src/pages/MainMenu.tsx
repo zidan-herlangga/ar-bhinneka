@@ -3,7 +3,7 @@ import {
   ArrowRight,
   BookOpen,
   Compass,
-  Glasses,
+  Gamepad2,
   Trophy,
   User,
 } from "lucide-react";
@@ -22,10 +22,10 @@ const features = [
     desc: "Pilih pulau dan provinsi, kenali budayanya.",
   },
   {
-    to: "/pengalaman-ar",
-    icon: Glasses,
-    title: "AR Budaya",
-    desc: "Lihat budaya Indonesia dalam Augmented Reality.",
+    to: "/tantangan",
+    icon: Gamepad2,
+    title: "Tantangan Budaya",
+    desc: "Main tiga mini-game: jodohkan budaya, kartu ingatan, dan tebak petunjuk.",
   },
   {
     to: "/pencapaian",
@@ -44,7 +44,7 @@ const features = [
 const steps = [
   { n: "1", title: "Pilih pulau", desc: "Temukan provinsi favoritmu." },
   { n: "2", title: "Baca budaya", desc: "Kenali rumah, tarian, dan makanan." },
-  { n: "3", title: "Ikuti kuis", desc: "Kumpulkan XP dan bintang." },
+  { n: "3", title: "Uji pemahaman", desc: "Ikuti kuis dan tantangan budaya." },
 ];
 
 export function MainMenu() {
@@ -77,17 +77,12 @@ export function MainMenu() {
               />
             </Link>
             <Link
-              to="/pengalaman-ar"
-              className="inline-block transition hover:scale-105 active:scale-95"
+              to="/tantangan"
+              className="inline-flex h-12 items-center gap-2 rounded-xl border-2 border-white/80 bg-white/10 px-5 font-display text-base font-extrabold text-white backdrop-blur transition hover:bg-white/20 active:scale-95 md:h-16 md:px-7 md:text-lg"
               onClick={playClick}
             >
-              <img
-                src="/assets/buttons/ar.png"
-                alt="Coba AR"
-                className="h-12 w-auto max-w-none shrink-0 md:h-16"
-                loading="lazy"
-                decoding="async"
-              />
+              <Gamepad2 className="h-5 w-5 md:h-6 md:w-6" aria-hidden />
+              Tantangan Budaya
             </Link>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter, Outlet, RouterProvider, useParams } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet, RouterProvider, useParams } from "react-router-dom";
 import { AppShell } from "../components/layout/AppShell";
 import { PageTransition } from "../components/layout/PageTransition";
 
@@ -7,7 +7,18 @@ const MainMenu = lazy(() => import("../pages/MainMenu").then((m) => ({ default: 
 const MapPage = lazy(() => import("../pages/MapPage").then((m) => ({ default: m.MapPage })));
 const RegionPage = lazy(() => import("../pages/RegionPage").then((m) => ({ default: m.RegionPage })));
 const ProvincePage = lazy(() => import("../pages/ProvincePage").then((m) => ({ default: m.ProvincePage })));
-const ArPage = lazy(() => import("../pages/ArPage").then((m) => ({ default: m.ArPage })));
+const TantanganPage = lazy(() =>
+  import("../pages/tantangan/TantanganPage").then((m) => ({ default: m.TantanganPage }))
+);
+const JodohkanPage = lazy(() =>
+  import("../pages/tantangan/JodohkanPage").then((m) => ({ default: m.JodohkanPage }))
+);
+const IngatanPage = lazy(() =>
+  import("../pages/tantangan/IngatanPage").then((m) => ({ default: m.IngatanPage }))
+);
+const PetunjukPage = lazy(() =>
+  import("../pages/tantangan/PetunjukPage").then((m) => ({ default: m.PetunjukPage }))
+);
 const QuizPage = lazy(() => import("../pages/QuizPage").then((m) => ({ default: m.QuizPage })));
 const Profile = lazy(() => import("../pages/Profile").then((m) => ({ default: m.Profile })));
 const Achievements = lazy(() => import("../pages/Achievements").then((m) => ({ default: m.Achievements })));
@@ -39,7 +50,11 @@ const router = createBrowserRouter([
       { path: "peta", element: <MapPage /> },
       { path: "pulau/:region", element: <RegionPage /> },
       { path: "provinsi/:id", element: <ProvincePage /> },
-      { path: "pengalaman-ar", element: <ArPage /> },
+      { path: "tantangan", element: <TantanganPage /> },
+      { path: "tantangan/jodohkan", element: <JodohkanPage /> },
+      { path: "tantangan/ingatan", element: <IngatanPage /> },
+      { path: "tantangan/petunjuk", element: <PetunjukPage /> },
+      { path: "pengalaman-ar", element: <Navigate to="/tantangan" replace /> },
       { path: "kuis/:id", element: <QuizRoute /> },
       { path: "profil", element: <Profile /> },
       { path: "pencapaian", element: <Achievements /> },

@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { Gamepad2 } from "lucide-react";
 import { cn } from "../../lib/cn";
 import { playClick } from "../../lib/sound";
 
@@ -17,10 +18,9 @@ const items = [
       ["/peta", "/pulau", "/provinsi", "/kuis"].some((x) => p.startsWith(x)),
   },
   {
-    to: "/pengalaman-ar",
-    label: "AR",
-    iconSrc: "/assets/icons/mobile/ar.png",
-    matches: (p: string) => p.startsWith("/pengalaman-ar"),
+    to: "/tantangan",
+    label: "Tantangan",
+    matches: (p: string) => p.startsWith("/tantangan"),
   },
   {
     to: "/profil",
@@ -56,14 +56,25 @@ export function BottomNav() {
                   active ? "bg-sky/50" : "hover:bg-gray/5 active:bg-gray/10",
                 )}
               >
-                <img
-                  src={iconSrc}
-                  alt={label}
-                  className={cn(
-                    "h-14 w-auto max-w-none object-contain transition-transform",
-                    active && "scale-105",
-                  )}
-                />
+                {iconSrc ? (
+                  <img
+                    src={iconSrc}
+                    alt=""
+                    aria-hidden
+                    className={cn(
+                      "h-14 w-auto max-w-none object-contain transition-transform",
+                      active && "scale-105",
+                    )}
+                  />
+                ) : (
+                  <Gamepad2
+                    className={cn(
+                      "h-9 w-9 text-sky-dark transition-transform",
+                      active && "scale-105",
+                    )}
+                    aria-hidden
+                  />
+                )}
               </Link>
             </li>
           );

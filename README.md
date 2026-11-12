@@ -1,12 +1,20 @@
-# Bhinneka Tunggal Ika — AR Educational Adventure
+# Bhinneka Tunggal Ika — Petualangan Budaya Indonesia
 
-Web-based educational game teaching Indonesian cultural diversity to elementary students.
+Game edukasi berbasis web untuk mengenalkan keberagaman budaya Indonesia kepada siswa SD.
+
+## Fitur
+
+- Peta interaktif 38 provinsi dalam 7 kelompok pulau
+- 228 entri budaya: rumah adat, pakaian, tarian, seni, alat musik, makanan
+- Kuis 26 soal per provinsi (pilihan ganda, ya/tidak, esai)
+- Tantangan Budaya: 3 mini-game (Jodohkan Budaya, Kartu Ingatan, Tebak dari Petunjuk)
+- Profil, XP, bintang, pencapaian, dan progres tersimpan
 
 ## Stack
 
 - Frontend: React 19 + TypeScript + Vite + Tailwind CSS v4
 - Backend: FastAPI (Python) + Motor (MongoDB async)
-- Database: MongoDB (Emergent-managed Atlas in production)
+- Database: MongoDB (opsional; tanpa database progres disimpan di browser)
 
 ## Structure
 
@@ -104,11 +112,11 @@ perlu build ulang. Berguna untuk mengarahkan build Vercel ke backend baru.
 
 ## Phases
 
-1. Foundation & UI/UX (current)
+1. Foundation & UI/UX
 2. Interactive map & 38 provinces
 3. Cultural database
 4. Cultural exploration
-5. Marker-based & markerless AR
+5. Tantangan Budaya (mini-game)
 6. Quiz & gamification
 7. Player profiles & progress
 8. Testing, optimization, publishing

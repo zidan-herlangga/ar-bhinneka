@@ -1,7 +1,7 @@
 {
-  "name": "Bhinneka Tunggal Ika — AR Educational Adventure",
+  "name": "Bhinneka Tunggal Ika — Petualangan Budaya Indonesia",
   "short_name": "Bhinneka",
-  "description": "Petualangan AR budaya Indonesia untuk siswa SD.",
+  "description": "Petualangan budaya Indonesia untuk siswa SD.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFF5E8",
