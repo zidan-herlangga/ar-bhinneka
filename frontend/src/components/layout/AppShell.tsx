@@ -1,5 +1,6 @@
 import { TopBar } from "./TopBar";
 import { BottomNav } from "./BottomNav";
+import { OfflineBanner } from "./OfflineBanner";
 import { ErrorBoundary } from "../ErrorBoundary";
 import { MusicPlayer } from "../MusicPlayer";
 import { apiConfigured } from "../../lib/api";
@@ -12,6 +13,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-ivory">
       <TopBar />
+      <OfflineBanner />
       {showApiWarning && (
         <div className="relative z-10 border-b border-warm/30 bg-warm/15 px-4 py-2 text-center text-xs font-semibold text-amber-900">
           ⚠️ Mode demo: <code className="font-mono">VITE_API_BASE_URL</code> belum diatur, jadi data
