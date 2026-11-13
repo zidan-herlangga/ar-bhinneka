@@ -9,7 +9,6 @@ import { Card } from "../components/ui/Card";
 import { SectionTitle } from "../components/ui/SectionTitle";
 import { usePlayerStore } from "../store/playerStore";
 import { playClick } from "../lib/sound";
-// import { Mascot } from "../components/illustrations/Mascot";
 
 const features = [
   {
@@ -87,7 +86,6 @@ export function MainMenu() {
             </Link>
           </div>
         </div>
-        {/* <Mascot className="floaty absolute bottom-4 left-4 h-16 w-16 drop-shadow-lg md:h-20 md:w-20" /> */}
       </div>
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-sky/10 pb-5">
