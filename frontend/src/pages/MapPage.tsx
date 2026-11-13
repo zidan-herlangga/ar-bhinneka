@@ -17,16 +17,8 @@ const REGIONS: Region[] = [
   "BaliNusaTenggara", "Maluku", "Papua",
 ];
 
-// Polygon disesuaikan dengan bentuk pulau pada gambar peta (1774 x 887).
-const HOTSPOTS: Record<Region, { points: string; cx: number; cy: number }> = {
-  Sumatra: { points: "30,180 90,150 200,160 280,200 340,270 370,360 380,450 350,540 280,600 200,610 120,570 60,490 25,390 20,280", cx: 210, cy: 390 },
-  Java: { points: "400,590 520,575 640,580 760,595 840,615 860,640 820,675 720,690 600,685 480,675 420,645", cx: 630, cy: 635 },
-  Kalimantan: { points: "500,160 620,145 740,170 760,260 740,380 680,480 580,500 500,440 480,320 490,220", cx: 620, cy: 330 },
-  Sulawesi: { points: "950,240 1020,230 1070,270 1090,340 1060,420 1000,460 940,440 920,370 930,290", cx: 1000, cy: 350 },
-  BaliNusaTenggara: { points: "1180,600 1320,595 1470,605 1620,620 1720,635 1700,670 1580,660 1430,650 1280,640 1190,625", cx: 1450, cy: 630 },
-  Maluku: { points: "1300,200 1420,180 1560,200 1680,230 1720,300 1680,380 1560,420 1420,400 1320,340 1300,260", cx: 1500, cy: 300 },
-  Papua: { points: "1360,300 1470,280 1590,300 1690,340 1750,420 1760,520 1730,620 1650,680 1550,700 1450,680 1390,620 1370,520 1370,420", cx: 1560, cy: 500 },
-};
+// Koordinat mengikuti ilustrasi indonesia.png (1774 x 887).
+// Hotspot interaktif dihapus; pemilihan pulau dilakukan lewat kartu di bawah.
 
 export function MapPage() {
   return (
@@ -40,21 +32,8 @@ export function MapPage() {
       />
 
       <Card className="mb-8 overflow-hidden p-0">
-        <div className="motif relative p-3 md:p-5">
-          <img src="/assets/maps/indonesia.png" alt="Peta Indonesia" className="h-auto w-full" />
-          <svg viewBox="0 0 1774 887" className="absolute inset-0 h-full w-full" role="img" aria-label="Peta Indonesia interaktif">
-            {REGIONS.map((r) => {
-              const h = HOTSPOTS[r];
-              return (
-                <Link key={r} to={`/pulau/${r}`} aria-label={`Pilih ${REGION_ISLAND_LABELS[r]}`}>
-                  <polygon points={h.points} fill={REGION_COLORS[r]} fillOpacity="0.5" stroke="white" strokeWidth="3" className="cursor-pointer transition hover:brightness-110" />
-                  <text x={h.cx} y={h.cy} textAnchor="middle" dominantBaseline="middle" fill="white" fontWeight="800" fontSize="26" stroke="rgba(0,0,0,0.55)" strokeWidth="4" paintOrder="stroke" className="pointer-events-none">
-                    {REGION_LABELS[r]}
-                  </text>
-                </Link>
-              );
-            })}
-          </svg>
+        <div className="p-3 md:p-5">
+          <img src="/assets/maps/indonesia.png" alt="Peta Indonesia" className="h-auto w-full rounded-xl" />
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-sky/10 bg-white px-4 py-3">
