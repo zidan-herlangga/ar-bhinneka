@@ -11,7 +11,7 @@ export function TopBar() {
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
         <Link to="/" className="flex min-w-0 items-center gap-2.5">
           <img
-            src="/assets/brand/logo.png"
+            src="/assets/brand/logo.webp"
             alt="Logo Bhinneka Tunggal Ika"
             className="h-9 w-auto shrink-0"
             loading="eager"

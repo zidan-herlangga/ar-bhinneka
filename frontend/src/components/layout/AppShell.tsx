@@ -18,11 +18,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           budaya dari server tidak bisa dimuat.
         </div>
       )}
-      <main className="relative z-10 flex-1 pb-24 md:pb-10">
+      <main className="relative z-10 flex-1 pb-6 md:pb-10">
         <ErrorBoundary>{children}</ErrorBoundary>
       </main>
-      <footer className="hidden pb-6 text-center text-xs text-muted md:block">
-        🇮🇩 Dibuat untuk belajar budaya Indonesia
+      <footer className="relative z-10 pb-28 pt-6 text-center md:pb-6">
+        <div aria-hidden className="motif-band mx-auto mb-4 w-40 rounded-full" />
+        <p className="mx-auto flex max-w-xl flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-4 text-xs text-muted">
+          <span className="inline-flex items-center gap-2">
+            <span
+              className="block h-3 w-[18px] overflow-hidden rounded-[3px] ring-1 ring-inset ring-ink/15"
+              aria-hidden
+            >
+              <span className="block h-1/2 w-full bg-flag-red" />
+              <span className="block h-1/2 w-full bg-white" />
+            </span>
+            <span className="font-display text-sm font-extrabold tracking-wide text-ink">
+              By: Nabila
+            </span>
+          </span>
+          <span aria-hidden className="text-sky/40">
+            •
+          </span>
+          <span>Dibuat untuk belajar budaya Indonesia</span>
+        </p>
       </footer>
       <MusicPlayer />
       <BottomNav />

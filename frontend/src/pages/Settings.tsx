@@ -158,8 +158,15 @@ export function Settings() {
         </div>
       </Card>
 
-      <SectionTitle icon={<Wifi className="h-5 w-5" />} title="Koneksi Server" subtitle="Cek apakah aplikasi bisa menjangkau backend." />
-      <Card className="mb-8">
+      <details className="group mb-8">
+        <summary className="mb-3 flex cursor-pointer list-none items-center gap-2 rounded-xl border border-sky/10 bg-white px-4 py-3 text-sm font-bold text-muted transition hover:bg-sky/5 [&::-webkit-details-marker]:hidden">
+          <Wifi className="h-4 w-4 text-sky-dark" aria-hidden />
+          Pengaturan lanjutan (guru/pengembang)
+          <span className="ml-auto text-xs font-semibold text-gray-400 group-open:hidden">Tampilkan</span>
+          <span className="ml-auto hidden text-xs font-semibold text-gray-400 group-open:inline">Sembunyikan</span>
+        </summary>
+        <SectionTitle icon={<Wifi className="h-5 w-5" />} title="Koneksi Server" subtitle="Cek apakah aplikasi bisa menjangkau backend." />
+        <Card className="mb-8">
         <label className="text-xs font-bold uppercase tracking-wider text-muted" htmlFor="api-base">
           Alamat backend
         </label>
@@ -191,6 +198,7 @@ export function Settings() {
           )}
         </div>
       </Card>
+      </details>
 
       <SectionTitle icon={<Info className="h-5 w-5" />} title="Tentang Aplikasi" />
       <Card>

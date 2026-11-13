@@ -132,6 +132,26 @@ body {
   animation: pop 0.3s ease-out both;
 }
 
+/* Ikon menu bawah "memantul" saat menu menjadi aktif. */
+@keyframes nav-pop {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(-4px) scale(1.16);
+  }
+  70% {
+    transform: translateY(0) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1.05);
+  }
+}
+.nav-pop {
+  animation: nav-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: scale(1.05);
+}
+
 .floaty {
   animation: floaty 3.2s ease-in-out infinite;
 }

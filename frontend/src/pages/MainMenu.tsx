@@ -2,10 +2,7 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight,
   BookOpen,
-  Compass,
   Gamepad2,
-  Trophy,
-  User,
 } from "lucide-react";
 
 import { Card } from "../components/ui/Card";
@@ -17,28 +14,28 @@ import { playClick } from "../lib/sound";
 const features = [
   {
     to: "/peta",
-    icon: Compass,
+    iconSrc: "/assets/icons/mobile/peta.webp",
     color: "#247C83",
     title: "Jelajah Peta",
     desc: "Pilih pulau dan provinsi, kenali budayanya.",
   },
   {
     to: "/tantangan",
-    icon: Gamepad2,
+    iconSrc: "/assets/icons/mobile/tantangan.webp",
     color: "#F28C28",
     title: "Tantangan Budaya",
     desc: "Main tiga mini-game: jodohkan budaya, kartu ingatan, dan tebak petunjuk.",
   },
   {
     to: "/pencapaian",
-    icon: Trophy,
+    iconSrc: "/assets/icons/pencapaian.webp",
     color: "#F2C14E",
     title: "Pencapaian",
     desc: "Kumpulkan bintang dan buka lencana budaya.",
   },
   {
     to: "/profil",
-    icon: User,
+    iconSrc: "/assets/icons/mobile/profil.webp",
     color: "#78A9B5",
     title: "Profil Saya",
     desc: "Lihat level, XP, dan riwayat kuis.",
@@ -59,7 +56,7 @@ export function MainMenu() {
       <div
         className="relative overflow-hidden rounded-2xl"
         style={{
-          backgroundImage: "url('/assets/banners/kenal-budaya.png')",
+          backgroundImage: "url('/assets/banners/kenal-budaya.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -73,7 +70,7 @@ export function MainMenu() {
               onClick={playClick}
             >
               <img
-                src="/assets/buttons/start.png"
+                src="/assets/buttons/start.webp"
                 alt="Mulai Petualangan"
                 className="h-12 w-auto md:h-16"
                 loading="eager"
@@ -114,7 +111,7 @@ export function MainMenu() {
       </div>
 
       <SectionTitle
-        icon={<Compass className="h-5 w-5" />}
+        icon={<Gamepad2 className="h-5 w-5" />}
         title="Mulai dari sini"
         subtitle="Semua tempat belajar budaya ada di sini."
       />
@@ -128,11 +125,17 @@ export function MainMenu() {
               />
               <div className="flex items-start gap-3">
                 <span
-                  className="grid h-10 w-10 shrink-0 place-items-center rounded-xl transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
-                  style={{ backgroundColor: `${f.color}18`, color: f.color }}
+                  className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                  style={{ backgroundColor: `${f.color}18` }}
                   aria-hidden
                 >
-                  <f.icon className="h-5 w-5" />
+                  <img
+                    src={f.iconSrc}
+                    alt=""
+                    className="h-7 w-7 object-contain"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </span>
                 <div className="min-w-0 flex-1">
                   <h3 className="font-display text-lg font-extrabold text-ink transition-colors duration-300 group-hover:text-sky-dark">

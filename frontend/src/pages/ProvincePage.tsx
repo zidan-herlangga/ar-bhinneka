@@ -61,7 +61,7 @@ export function ProvincePage() {
 
   const color = REGION_COLORS[province.region];
   const islandKey = province.region === "BaliNusaTenggara" ? "bali" : province.region.toLowerCase();
-  const islandImg = `/assets/maps/pulau-${islandKey}.png`;
+  const islandImg = `/assets/maps/pulau-${islandKey}.webp`;
 
   return (
     <section className="mx-auto max-w-4xl px-4 py-6 md:py-8">
