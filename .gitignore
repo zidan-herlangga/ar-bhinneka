@@ -33,3 +33,5 @@ analyze_map*.py
 # IDE
 .vscode/
 .idea/
+
+.vercel

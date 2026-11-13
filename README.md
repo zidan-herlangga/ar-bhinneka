@@ -94,6 +94,21 @@ redeploy. `/api/health` akan melaporkan `"database": "configured"`.
 Aplikasi tetap jalan memakai paket data lokal (`frontend/src/data/cultures.json`)
 dan menampilkan banner "Mode offline".
 
+### Mode offline penuh (PWA)
+
+Setelah kunjungan pertama, service worker menyimpan app shell, semua aset, dan
+musik (~3,4 MB) sehingga aplikasi bisa dibuka tanpa internet — termasuk
+navigasi langsung ke `/peta`, `/provinsi/...`, dan `/kuis/...`. Aplikasi juga
+bisa di-install ke layar utama HP/tablet.
+
+- Service worker dibuat otomatis saat build oleh `frontend/scripts/generate-sw.mjs`
+  (`npm run build`), jadi daftar aset selalu ikut build terbaru.
+- Data dari API selalu diambil dari jaringan; kalau gagal, halaman memakai data
+  lokal. Skor kuis tetap tersimpan di localStorage.
+- Versi baru diunduh otomatis saat online, lalu halaman dimuat ulang sekali.
+- Untuk menguji lokal: `npm run build && npm run preview` (service worker tidak
+  aktif di `npm run dev`).
+
 ### Alamat backend bisa diubah saat runtime
 
 Lewat menu **Pengaturan → Koneksi Server** (tersimpan di localStorage), tanpa
