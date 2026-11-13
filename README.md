@@ -46,14 +46,14 @@ Dua project Vercel dari satu repo:
 
 | Project | Root Directory | Framework | URL |
 |---|---|---|---|
-| `ar-bhinneka` (frontend) | `frontend` | Vite | https://ar-bhinneka.vercel.app |
-| `ar-bhinneka-api` (backend) | `backend` | FastAPI | https://ar-bhinneka-api.vercel.app |
+| `bhinneka-tunggal-ika` (frontend) | `frontend` | Vite | https://bhinneka-tunggal-ika.vercel.app |
+| `bhinneka-tunggal-ika-api` (backend) | `backend` | FastAPI | https://bhinneka-tunggal-ika-api.vercel.app |
 
 Keduanya sudah terhubung ke repo GitHub, jadi **setiap push ke `main` otomatis
 deploy**. Env yang sudah diatur:
 
-- `ar-bhinneka`: `VITE_API_BASE_URL=https://ar-bhinneka-api.vercel.app`
-- `ar-bhinneka-api`: `CORS_ORIGINS=*`
+- `bhinneka-tunggal-ika`: `VITE_API_BASE_URL=https://bhinneka-tunggal-ika-api.vercel.app`
+- `bhinneka-tunggal-ika-api`: `CORS_ORIGINS=*`
 
 Perintah manual kalau perlu:
 
@@ -75,7 +75,7 @@ sementara Root Directory lewat `vercel project update`.
 serverless). Klik:
 
 ```
-https://render.com/deploy?repo=https://github.com/zidan-herlangga/ar-bhinneka
+https://render.com/deploy?repo=https://github.com/zidan-herlangga/bhinneka-tunggal-ika
 ```
 
 Lalu ganti `VITE_API_BASE_URL` di Vercel ke URL Render dan redeploy.
@@ -86,7 +86,7 @@ Instance gratis Render tidur setelah ~15 menit tanpa trafik (cold start
 
 Tanpa `MONGO_URL`, API tetap jalan dan progres disimpan di browser
 (localStorage). Untuk menyimpan progres di server, isi `MONGO_URL`
-(MongoDB Atlas) di Environment Variables project `ar-bhinneka-api`, lalu
+(MongoDB Atlas) di Environment Variables project `bhinneka-tunggal-ika-api`, lalu
 redeploy. `/api/health` akan melaporkan `"database": "configured"`.
 
 ### Kalau backend belum siap

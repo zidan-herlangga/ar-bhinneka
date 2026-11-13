@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter, Navigate, Outlet, RouterProvider, useParams } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider, useParams } from "react-router-dom";
 import { AppShell } from "../components/layout/AppShell";
 import { PageTransition } from "../components/layout/PageTransition";
 
@@ -54,7 +54,6 @@ const router = createBrowserRouter([
       { path: "tantangan/jodohkan", element: <JodohkanPage /> },
       { path: "tantangan/ingatan", element: <IngatanPage /> },
       { path: "tantangan/petunjuk", element: <PetunjukPage /> },
-      { path: "pengalaman-ar", element: <Navigate to="/tantangan" replace /> },
       { path: "kuis/:id", element: <QuizRoute /> },
       { path: "profil", element: <Profile /> },
       { path: "pencapaian", element: <Achievements /> },
