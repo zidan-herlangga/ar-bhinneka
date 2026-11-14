@@ -1,14 +1,19 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
   BookOpen,
+  Download,
   Gamepad2,
+  X,
 } from "lucide-react";
 
 import { Card } from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
 import { SectionTitle } from "../components/ui/SectionTitle";
 import { usePlayerStore } from "../store/playerStore";
 import { playClick } from "../lib/sound";
+import { useInstallPrompt } from "../hooks/useInstallPrompt";
 
 const features = [
   {
@@ -47,8 +52,24 @@ const steps = [
   { n: "3", title: "Uji pemahaman", desc: "Ikuti kuis dan tantangan budaya." },
 ];
 
+// install banner v2
 export function MainMenu() {
   const { nickname, avatar } = usePlayerStore();
+  const install = useInstallPrompt();
+  const [dismissed, setDismissed] = useState(() => localStorage.getItem("bti-install-dismissed") === "1");
+  const showBanner = !install.installed && !dismissed;
+
+  const dismissBanner = () => {
+    localStorage.setItem("bti-install-dismissed", "1");
+    setDismissed(true);
+  };
+  const doInstall = async () => {
+    const ok = await install.install();
+    playClick();
+    if (!ok && !install.installed) {
+      // native prompt tidak tersedia; biarkan instruksi inline tampil
+    }
+  };
 
   return (
     <section className="mx-auto max-w-5xl px-4 py-6 md:py-10">
@@ -107,6 +128,57 @@ export function MainMenu() {
           Lihat profil →
         </Link>
       </div>
+
+      {showBanner && (
+        <Card className="mb-6 border-sky/20 bg-sky/5">
+          <div className="flex items-center gap-3">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sky/10 text-sky-dark" aria-hidden>
+              <Download className="h-5 w-5" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="font-display text-sm font-extrabold text-ink">Pasang aplikasi di layar utama</p>
+              <p className="text-xs text-gray-600">Buka lebih cepat dan bisa dipakai tanpa internet.</p>
+            </div>
+            {install.installable ? (
+              <Button size="sm" onClick={doInstall}>
+                <Download className="h-4 w-4" aria-hidden /> Pasang
+              </Button>
+            ) : (
+              <button
+                type="button"
+                onClick={dismissBanner}
+                className="text-xs font-bold text-sky-dark underline"
+              >
+                Tutup
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={dismissBanner}
+              aria-label="Tutup"
+              className="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-sky/10"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+          {!install.installable && (
+            <div className="mt-3 rounded-xl bg-white/70 p-3 text-xs text-gray-600">
+              <p className="font-bold text-ink">Cara pasang manual:</p>
+              {install.isIOS ? (
+                <ol className="mt-1 list-decimal space-y-0.5 pl-5">
+                  <li>Ketuk <strong>Bagikan</strong> (ikon kotak panah) di Safari.</li>
+                  <li>Pilih <strong>Tambahkan ke Layar Utama</strong> → <strong>Tambah</strong>.</li>
+                </ol>
+              ) : (
+                <ol className="mt-1 list-decimal space-y-0.5 pl-5">
+                  <li>Buka menu browser (ikon <strong>⋮</strong> atau <strong>⋯</strong>).</li>
+                  <li>Pilih <strong>Install app</strong> atau <strong>Tambahkan ke layar utama</strong>.</li>
+                </ol>
+              )}
+            </div>
+          )}
+        </Card>
+      )}
 
       <SectionTitle
         icon={<Gamepad2 className="h-5 w-5" />}

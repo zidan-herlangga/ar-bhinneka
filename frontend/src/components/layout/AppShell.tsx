@@ -35,7 +35,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <span className="block h-1/2 w-full bg-white" />
             </span>
             <span className="font-display text-sm font-extrabold tracking-wide text-ink">
-              By: Nabila
+              By: Nabila Arsagita
             </span>
           </span>
           <span aria-hidden className="text-sky/40">

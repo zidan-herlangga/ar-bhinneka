@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Check, Info, Leaf, Music, RotateCcw, Save, ShieldCheck, SlidersHorizontal, Type, UserRound, Volume2, VolumeX, Wifi } from "lucide-react";
+import { Check, Download, Info, Leaf, Music, RotateCcw, Save, ShieldCheck, SlidersHorizontal, Type, UserRound, Volume2, VolumeX, Wifi } from "lucide-react";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { PageHeader } from "../components/ui/PageHeader";
@@ -8,6 +8,7 @@ import { usePlayerStore } from "../store/playerStore";
 import { cn } from "../lib/cn";
 import { isSoundEnabled, setSoundEnabled, playClick } from "../lib/sound";
 import { apiFetch, getApiBase, setApiBase } from "../lib/api";
+import { useInstallPrompt } from "../hooks/useInstallPrompt";
 
 const ENV_API_BASE = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? "";
 
@@ -39,6 +40,7 @@ function Toggle({ checked, onChange, icon, label, description }: ToggleProps) {
 
 export function Settings() {
   const { nickname, avatar, setNickname, setAvatar, resetProgress } = usePlayerStore();
+  const installPrompt = useInstallPrompt();
 
   const [draftName, setDraftName] = useState(nickname);
   const [saved, setSaved] = useState(false);
@@ -129,6 +131,35 @@ export function Settings() {
         <Toggle checked={sound} onChange={setSound} icon={sound ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />} label="Efek suara" description="Nyalakan bunyi saat menjawab kuis dan menekan tombol." />
         <Toggle checked={reduceMotion} onChange={setReduceMotion} icon={<Leaf className="h-4 w-4" />} label="Kurangi animasi" description="Matikan gerakan agar tampilan lebih tenang." />
         <Toggle checked={largeText} onChange={setLargeText} icon={<Type className="h-4 w-4" />} label="Teks lebih besar" description="Perbesar ukuran teks untuk memudahkan membaca." />
+      </Card>
+
+      <SectionTitle icon={<Download className="h-5 w-5" />} title="Pasang Aplikasi" subtitle="Pasang di layar utama agar mudah dibuka kapan saja." />
+      <Card className="mb-8">
+        {installPrompt.installed ? (
+          <div className="flex items-start gap-3">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-green/10 text-green-700"><Check className="h-5 w-5" aria-hidden /></span>
+            <div>
+              <p className="font-display text-lg font-extrabold text-ink">Aplikasi sudah terpasang</p>
+              <p className="text-sm text-gray-600">Buka dari ikon di layar utama. Aplikasi dapat dipakai tanpa internet.</p>
+            </div>
+          </div>
+        ) : installPrompt.installable ? (
+          <div className="flex flex-wrap items-center gap-3">
+            <Button onClick={() => { void installPrompt.install(); playClick(); }}><Download className="h-4 w-4" aria-hidden /> Pasang aplikasi</Button>
+            <span className="text-sm text-gray-600">Pasang ke layar utama (tanpa toko aplikasi).</span>
+          </div>
+        ) : installPrompt.isIOS ? (
+          <div className="text-sm text-gray-600">
+            <p className="font-bold text-ink">Di iPhone / iPad:</p>
+            <ol className="mt-2 list-decimal space-y-1 pl-5">
+              <li>Ketuk tombol <strong>Bagikan</strong> di Safari.</li>
+              <li>Pilih <strong>Tambahkan ke Layar Utama</strong>.</li>
+              <li>Ketuk <strong>Tambah</strong>.</li>
+            </ol>
+          </div>
+        ) : (
+          <p className="text-sm text-gray-600">Gunakan menu browser (⋮) lalu pilih <strong>Install app</strong> atau <strong>Tambahkan ke layar utama</strong>.</p>
+        )}
       </Card>
 
       <SectionTitle icon={<ShieldCheck className="h-5 w-5" />} title="Data & Privasi" subtitle="Kamu memegang kendali atas progresmu." />

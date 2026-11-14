@@ -35,3 +35,4 @@ analyze_map*.py
 .idea/
 
 .vercel
+.env*
