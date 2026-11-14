@@ -52,7 +52,6 @@ const steps = [
   { n: "3", title: "Uji pemahaman", desc: "Ikuti kuis dan tantangan budaya." },
 ];
 
-// install banner v2
 export function MainMenu() {
   const { nickname, avatar } = usePlayerStore();
   const install = useInstallPrompt();
