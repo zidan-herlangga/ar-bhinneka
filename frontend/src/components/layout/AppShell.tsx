@@ -1,14 +1,24 @@
+import { useState } from "react";
 import { TopBar } from "./TopBar";
 import { BottomNav } from "./BottomNav";
 import { OfflineBanner } from "./OfflineBanner";
 import { ErrorBoundary } from "../ErrorBoundary";
 import { MusicPlayer } from "../MusicPlayer";
 import { apiConfigured } from "../../lib/api";
+import { useOfflineReady } from "../../hooks/useOfflineReady";
+import { CheckCircle2, X } from "lucide-react";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  // Di localhost memakai proxy Vite, jadi banner hanya ditampilkan di build produksi.
   const isProd = import.meta.env.PROD;
   const showApiWarning = isProd && !apiConfigured();
+  const offline = useOfflineReady();
+  const [toastDismissed, setToastDismissed] = useState(false);
+  const showToast = offline.ready && !offline.shown && !toastDismissed;
+
+  const dismissToast = () => {
+    offline.markShown();
+    setToastDismissed(true);
+  };
 
   return (
     <div className="flex min-h-screen flex-col bg-ivory">
@@ -44,6 +54,27 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <span>Dibuat untuk belajar budaya Indonesia</span>
         </p>
       </footer>
+      {showToast && (
+        <div className="fixed bottom-24 left-1/2 z-50 w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 rounded-2xl border border-green/20 bg-white p-4 shadow-xl md:bottom-6">
+          <div className="flex items-start gap-3">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-green/10 text-green-700">
+              <CheckCircle2 className="h-5 w-5" aria-hidden />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="font-display text-sm font-extrabold text-ink">Siap dipakai offline</p>
+              <p className="text-xs text-gray-600">Semua data tersimpan. Aplikasi bisa dibuka tanpa internet.</p>
+            </div>
+            <button
+              type="button"
+              onClick={dismissToast}
+              aria-label="Tutup"
+              className="grid h-8 w-8 place-items-center rounded-lg text-muted transition hover:bg-sky/10"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      )}
       <MusicPlayer />
       <BottomNav />
     </div>
